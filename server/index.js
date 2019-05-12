@@ -20,4 +20,4 @@ app.use(morgan('dev'));
 
 app.listen(PORT, () => {
   console.log(`We make magic on port ${PORT}`);
-})
+});
