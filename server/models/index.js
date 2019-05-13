@@ -20,8 +20,8 @@ const Users = sequelize.define('users', {
   password: {
     type: Sequelize.STRING,
   },
-  profilePicture: {
-    type: Sequelize.BLOB,
+  image: {
+    type: Sequelize.STRING,
   },
 });
 
@@ -45,7 +45,7 @@ const Posts = sequelize.define('posts', {
     type: Sequelize.TEXT,
   },
   image: {
-    type: Sequelize.BLOB,
+    type: Sequelize.STRING,
   },
 });
 
