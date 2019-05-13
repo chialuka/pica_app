@@ -1,11 +1,5 @@
 import Sequelize from 'sequelize';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-const { DB_URL } = process.env;
-
-const sequelize = new Sequelize(DB_URL);
+import sequelize from '../config';
 
 const Users = sequelize.define('users', {
   username: {
@@ -31,7 +25,7 @@ const Followers = sequelize.define('followers', {
     allowNull: false,
   },
   following: {
-    type: Sequelize.STRING,
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
 });
@@ -49,6 +43,8 @@ const Posts = sequelize.define('posts', {
   },
 });
 
-sequelize.sync({ force: true });
+const { Op } = Sequelize;
 
-export { Users, Followers, Posts };
+export {
+  Users, Followers, Posts, Op,
+};
