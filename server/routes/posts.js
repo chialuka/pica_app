@@ -6,7 +6,7 @@ import {
   findUserPosts,
   deletePost,
 } from '../controllers/posts';
-import {} from '../middleware/schema';
+import { postSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
 
 export default (router) => {
@@ -15,7 +15,7 @@ export default (router) => {
     .get(findPosts)
     .delete(deletePosts);
 
-  router.route('/posts/create').post(validateRequest(createPost), createPost);
+  router.route('/posts/create').post(validateRequest(postSchema), createPost);
 
   router
     .route('/posts/:id')

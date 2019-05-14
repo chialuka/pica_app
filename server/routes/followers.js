@@ -6,12 +6,12 @@ import {
   deleteFollowing,
 } from '../controllers/followers';
 import { validateRequest, validateIdParams } from '../middleware/validators';
-import {} from '../middleware/schema';
+import { followerSchema } from '../middleware/schema';
 
 export default (router) => {
   router
     .route('/followers/create')
-    .post(validateRequest(createFollower), createFollower);
+    .post(validateRequest(followerSchema), createFollower);
 
   router
     .route('/followers/:id')
