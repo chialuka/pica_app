@@ -8,7 +8,6 @@ const createPost = async (req, res) => {
     const post = await Posts.create(req.body);
     return res.status(201).json({ data: post });
   } catch (error) {
-    console.log(error);
     return res.status(500).json(error);
   }
 };

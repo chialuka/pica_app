@@ -6,6 +6,8 @@ import {
   findUserPosts,
   deletePost,
 } from '../controllers/posts';
+import {} from '../middleware/schema';
+import { validateRequest, validateIdParams } from '../middleware/validators';
 
 export default (router) => {
   router
@@ -13,12 +15,12 @@ export default (router) => {
     .get(findPosts)
     .delete(deletePosts);
 
-  router.route('/posts/create').post(createPost);
+  router.route('/posts/create').post(validateRequest(createPost), createPost);
 
   router
     .route('/posts/:id')
-    .get(findPost)
-    .delete(deletePost);
+    .get(validateIdParams, findPost)
+    .delete(validateIdParams, deletePost);
 
-  router.route('/posts/user/:id').get(findUserPosts);
+  router.route('/posts/user/:id').get(validateIdParams, findUserPosts);
 };
