@@ -55,7 +55,7 @@ const loginUser = async (req, res) => {
       },
     });
     if (!user) {
-      return res.status(404).json({ error: 'Incorrect login details' });
+      return res.status(400).json({ error: 'Incorrect login details' });
     }
     const validPassword = comparePword(
       req.body.password,

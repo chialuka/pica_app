@@ -12,7 +12,6 @@ const createFollower = async (req, res) => {
     const newFollow = await Followers.create(req.body);
     return res.status(201).json(newFollow);
   } catch (error) {
-    console.log(error);
     return res.status(500).json(error);
   }
 };
