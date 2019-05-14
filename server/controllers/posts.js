@@ -2,9 +2,13 @@ import { Posts } from '../models';
 
 const createPost = async (req, res) => {
   try {
+    if (!req.body.text && !req.body.image) {
+      return res.status(400).json({ error: 'Include either text or image' });
+    }
     const post = await Posts.create(req.body);
-    return req.status(201).json({ data: post });
+    return res.status(201).json({ data: post });
   } catch (error) {
+    console.log(error);
     return res.status(500).json(error);
   }
 };
@@ -32,7 +36,7 @@ const findPosts = async (req, res) => {
 
 const findUserPosts = async (req, res) => {
   try {
-    const posts = await Posts.findAll({ where: { id: req.params.id } });
+    const posts = await Posts.findAll({ where: { user: req.params.id } });
     return res.status(200).json(posts);
   } catch (error) {
     return res.status(500).json(error);
