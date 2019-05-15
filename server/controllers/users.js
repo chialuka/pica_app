@@ -4,7 +4,8 @@ import { createObject } from './images';
 
 const createUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const reqObject = JSON.parse(req.body.body);
+    const { username, email, password } = reqObject;
     const name = await Users.findOne({ where: { username } });
     if (name) {
       return res.status(409).json({ error: 'Username in use' });
@@ -14,8 +15,8 @@ const createUser = async (req, res) => {
       return res.status(409).json({ error: 'Email in use' });
     }
     const hashedPassword = await hashPassword(password);
-    const image = await createObject(username, req.file);
-    const data = { ...req.body, password: hashedPassword, image };
+    const image = await createObject(username, req.file.buffer);
+    const data = { ...reqObject, password: hashedPassword, image };
     const newUser = await Users.create(data);
     delete newUser.dataValues.password;
     const token = generateToken(newUser.id);
@@ -54,6 +55,7 @@ const findUsers = async (_, res) => {
 
 const loginUser = async (req, res) => {
   try {
+    console.log(req.body);
     const value = req.body.username || req.body.email;
     const user = await Users.findOne({
       where: {
