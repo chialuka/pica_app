@@ -1,5 +1,6 @@
 import { Users, Op } from '../models';
 import { hashPassword, generateToken, comparePword } from '../utils';
+import { createObject } from './images';
 
 const createUser = async (req, res) => {
   try {
@@ -13,7 +14,8 @@ const createUser = async (req, res) => {
       return res.status(409).json({ error: 'Email in use' });
     }
     const hashedPassword = await hashPassword(password);
-    const data = { ...req.body, password: hashedPassword };
+    const image = await createObject(username, req.body.image);
+    const data = { ...req.body, password: hashedPassword, image };
     const newUser = await Users.create(data);
     delete newUser.dataValues.password;
     const token = generateToken(newUser.id);
@@ -29,6 +31,7 @@ const findUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
+    delete user.dataValues.password;
     return res.status(200).json({ data: user.dataValues });
   } catch (error) {
     return res.status(500).json(error);
@@ -81,7 +84,7 @@ const deleteUser = async (req, res) => {
     if (!deleted) {
       return res.status(404).json({ error: 'User not found' });
     }
-    return res.status(204);
+    return res.status(204).json();
   } catch (error) {
     return res.status(500).json(error);
   }
