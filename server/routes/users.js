@@ -1,3 +1,4 @@
+import multer from 'multer';
 import {
   createUser,
   findUser,
@@ -8,12 +9,18 @@ import {
 import { createUserSchema, loginUserSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
 
+const upload = multer();
+
 export default (router) => {
   router.route('/users').get(findUsers);
 
   router
     .route('/users/signup')
-    .post(validateRequest(createUserSchema), createUser);
+    .post(
+      upload.single('image'),
+      validateRequest(createUserSchema),
+      createUser,
+    );
 
   router
     .route('/users/login')

@@ -2,7 +2,8 @@ import Joi from '@hapi/joi';
 
 const validateRequest = schema => async (req, res, next) => {
   try {
-    await Joi.validate(req.body, schema, { abortEarly: true });
+    const payload = req.body.body || req.body;
+    await Joi.validate(payload, schema, { abortEarly: true });
     return next();
   } catch (error) {
     const errors = error.details.map(x => x.message.replace(/([\\"])/g, ''));
