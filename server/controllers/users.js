@@ -15,7 +15,7 @@ const createUser = async (req, res) => {
       return res.status(409).json({ error: 'Email in use' });
     }
     const hashedPassword = await hashPassword(password);
-    const image = await createObject(username, req.file.buffer.toString('base64'));
+    const image = await createObject(req.file);
     const data = { ...reqObject, password: hashedPassword, image };
     const newUser = await Users.create(data);
     delete newUser.dataValues.password;
@@ -55,7 +55,6 @@ const findUsers = async (_, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    console.log(req.body);
     const value = req.body.username || req.body.email;
     const user = await Users.findOne({
       where: {

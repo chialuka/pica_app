@@ -1,4 +1,3 @@
-import multer from 'multer';
 import {
   createUser,
   findUser,
@@ -8,8 +7,7 @@ import {
 } from '../controllers/users';
 import { createUserSchema, loginUserSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
-
-const upload = multer();
+import upload from '../middleware/images';
 
 export default (router) => {
   router.route('/users').get(findUsers);
