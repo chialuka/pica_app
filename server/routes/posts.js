@@ -8,6 +8,7 @@ import {
 } from '../controllers/posts';
 import { postSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
+import upload from '../middleware/images';
 
 export default (router) => {
   router
@@ -15,7 +16,9 @@ export default (router) => {
     .get(findPosts)
     .delete(deletePosts);
 
-  router.route('/posts/create').post(validateRequest(postSchema), createPost);
+  router
+    .route('/posts/create')
+    .post(upload.single('image'), validateRequest(postSchema), createPost);
 
   router
     .route('/posts/:id')
