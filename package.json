@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/LukasChiama/pica_app/issues"
   },
-  "homepage": "https://github.com/LukasChiama/pica_app#readme"
+  "homepage": "https://github.com/LukasChiama/pica_app#readme",
+  "dependencies": {
+    "concurrently": "^4.1.0"
+  }
 }
