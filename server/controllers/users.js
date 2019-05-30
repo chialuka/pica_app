@@ -2,6 +2,14 @@ import { Users, Op } from '../models';
 import { hashPassword, generateToken, comparePword } from '../utils';
 import { createObject } from './images';
 
+/**
+ * @name createUser
+ * function for creating a new user
+ * @async
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {JSON} JSON response with details of new user created
+ */
 const createUser = async (req, res) => {
   try {
     const reqObject = JSON.parse(req.body.body);
@@ -26,6 +34,14 @@ const createUser = async (req, res) => {
   }
 };
 
+/**
+ * @findUser
+ * function for finding user with provided id
+ * @async
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {JSON} Json object with details of user searched for
+ */
 const findUser = async (req, res) => {
   try {
     const user = await Users.findOne({ where: { id: req.params.id } });
@@ -39,6 +55,14 @@ const findUser = async (req, res) => {
   }
 };
 
+/**
+ * @name findUsers
+ * @async
+ * function for finding all users
+ * @param {Object} _
+ * @param {Object} res
+ * @returns {JSON} Json object containing all users in the database
+ */
 const findUsers = async (_, res) => {
   try {
     const users = await Users.findAll();
@@ -53,6 +77,14 @@ const findUsers = async (_, res) => {
   }
 };
 
+/**
+ * @name loginUser
+ * @async
+ * funtion for generating token for user login
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {JSON} Json with details of user logged in
+ */
 const loginUser = async (req, res) => {
   try {
     const value = req.body.username || req.body.email;
@@ -79,6 +111,14 @@ const loginUser = async (req, res) => {
   }
 };
 
+/**
+ * @name deleteUser
+ * @async
+ * function for deleting users
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {JSON} Json response with status of delete
+ */
 const deleteUser = async (req, res) => {
   try {
     const deleted = await Users.destroy({ where: { id: req.params.id } });

@@ -1,5 +1,12 @@
 import Joi from '@hapi/joi';
 
+/**
+ * @name validateRequest
+ * validator function for the request body payload
+ * @async
+ * @param {Object} schema
+ * @returns {JSON} Json response with errors from validation
+ */
 const validateRequest = schema => async (req, res, next) => {
   try {
     const payload = req.body.body || req.body;
@@ -14,6 +21,15 @@ const validateRequest = schema => async (req, res, next) => {
   }
 };
 
+/**
+ * @name validateIdParams
+ * validator function for the ID provided in the request object
+ * @async
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ * @returns {Function} function that calls the next middleware
+ */
 const validateIdParams = (req, res, next) => {
   const isInvalid = /[^\d]/g.test(req.params.id);
   if (isInvalid) {

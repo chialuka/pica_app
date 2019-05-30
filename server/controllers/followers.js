@@ -1,5 +1,13 @@
 import { Followers } from '../models';
 
+/**
+ * @name createFollower
+ * function for creating a new follower
+ * @async
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {JSON} JSON response with details of new follower created
+ */
 const createFollower = async (req, res) => {
   try {
     const { follower, following } = req.body;
@@ -16,6 +24,14 @@ const createFollower = async (req, res) => {
   }
 };
 
+/**
+ * @findFollower
+ * function for finding all Followers of user with provided id
+ * @async
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {JSON} Json object with details of Followers searched for
+ */
 const findFollowers = async (req, res) => {
   try {
     const followers = await Followers.findAll({
@@ -27,6 +43,14 @@ const findFollowers = async (req, res) => {
   }
 };
 
+/**
+ * @findFollowing
+ * function for finding users the user with provided id is following
+ * @async
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {JSON} Json object with details of users searched for
+ */
 const findFollowing = async (req, res) => {
   try {
     const following = await Followers.findAll({
@@ -38,6 +62,15 @@ const findFollowing = async (req, res) => {
   }
 };
 
+
+/**
+ * @name deleteFollowing
+ * @async
+ * function for deleting a follower
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {JSON} Json response with status of delete
+ */
 const deleteFollowing = async (req, res) => {
   try {
     const deleted = await Followers.destroy({
@@ -49,6 +82,14 @@ const deleteFollowing = async (req, res) => {
   }
 };
 
+/**
+ * @name deleteFollower
+ * @async
+ * function for deleting a user following
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {JSON} Json response with status of delete
+ */
 const deleteFollower = async (req, res) => {
   try {
     const deleted = await Followers.destroy({
