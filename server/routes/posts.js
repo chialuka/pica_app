@@ -1,3 +1,4 @@
+import passport from 'passport';
 import {
   findPosts,
   deletePosts,
@@ -9,11 +10,12 @@ import {
 import { postSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
 import upload from '../middleware/images';
+// import { jwtStrategy } from '../middleware/auth';
 
 export default (router) => {
   router
     .route('/posts')
-    .get(findPosts)
+    .get(passport.authenticate('jwt', { session: false }), findPosts)
     .delete(deletePosts);
 
   router
