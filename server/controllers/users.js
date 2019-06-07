@@ -1,10 +1,16 @@
 import { Users, Op } from '../models';
-import { hashPassword, generateToken, comparePword } from '../utils';
+import sendVerifyEmail from '../lib/mailSender';
+import {
+  hashPassword,
+  generateToken,
+  comparePassword,
+  generateCode,
+} from '../utils';
 import { createObject } from './images';
 
 /**
- * @name createUser
  * function for creating a new user
+ * @name createUser
  * @async
  * @param {Object} req
  * @param {Object} res
@@ -15,19 +21,19 @@ const createUser = async (req, res) => {
     const reqObject = JSON.parse(req.body.body);
     const { username, email, password } = reqObject;
     const name = await Users.findOne({ where: { username } });
-    if (name) {
-      return res.status(409).json({ error: 'Username in use' });
-    }
+    if (name) return res.status(409).json({ error: 'Username in use' });
     const user = await Users.findOne({ where: { email } });
-    if (user) {
-      return res.status(409).json({ error: 'Email in use' });
-    }
+    if (user) return res.status(409).json({ error: 'Email in use' });
+    const code = generateCode(name);
     const hashedPassword = await hashPassword(password);
     const image = await createObject(req.file);
-    const data = { ...reqObject, password: hashedPassword, image };
+    const data = {
+      ...reqObject, password: hashedPassword, image, code,
+    };
     const newUser = await Users.create(data);
     delete newUser.dataValues.password;
     const token = generateToken(newUser.id);
+    sendVerifyEmail(email, code);
     return res.status(201).json({ data: { ...newUser.dataValues, token } });
   } catch (error) {
     return res.status(500).json(error);
@@ -35,8 +41,8 @@ const createUser = async (req, res) => {
 };
 
 /**
- * @findUser
  * function for finding user with provided id
+ * @findUser
  * @async
  * @param {Object} req
  * @param {Object} res
@@ -56,9 +62,9 @@ const findUser = async (req, res) => {
 };
 
 /**
+ * function for finding all users
  * @name findUsers
  * @async
- * function for finding all users
  * @param {Object} _
  * @param {Object} res
  * @returns {JSON} Json object containing all users in the database
@@ -78,9 +84,9 @@ const findUsers = async (_, res) => {
 };
 
 /**
+ * funtion for generating token for user login
  * @name loginUser
  * @async
- * funtion for generating token for user login
  * @param {Object} req
  * @param {Object} res
  * @returns {JSON} Json with details of user logged in
@@ -96,7 +102,7 @@ const loginUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({ error: 'Incorrect login details' });
     }
-    const validPassword = comparePword(
+    const validPassword = comparePassword(
       req.body.password,
       user.dataValues.password,
     );
@@ -112,9 +118,9 @@ const loginUser = async (req, res) => {
 };
 
 /**
+ * function for deleting users
  * @name deleteUser
  * @async
- * function for deleting users
  * @param {Object} req
  * @param {Object} res
  * @returns {JSON} Json response with status of delete
