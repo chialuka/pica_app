@@ -12,7 +12,7 @@ const { SERVER_URL } = process.env;
 const sendVerifyEmail = (email, confirmCode) => {
   const data = {
     email,
-    subject: 'Verify Email',
+    subject: 'Welcome to Pica: Verify Email',
     content: `
     <div style="text-align:center">
     <p style="font-size:16px">
