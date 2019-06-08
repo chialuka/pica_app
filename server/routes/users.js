@@ -4,6 +4,7 @@ import {
   findUsers,
   deleteUser,
   loginUser,
+  verifyUser,
 } from '../controllers/users';
 import { createUserSchema, loginUserSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
@@ -19,6 +20,10 @@ export default (router) => {
       validateRequest(createUserSchema),
       createUser,
     );
+
+  router
+    .route('/users/verifyEmail/:email/:verifyCode')
+    .patch(verifyUser);
 
   router
     .route('/users/login')

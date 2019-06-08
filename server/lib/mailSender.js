@@ -23,8 +23,8 @@ const sendVerifyEmail = (email, confirmCode) => {
     you're confirming your email address</p>
     <p style="margin:30px">
     <a style="text-decoration:none; background-color:blue;
-    padding:15px; color:white; border-radius:4px"
-    href=${SERVER_URL}/verifyEmail/${email}/${confirmCode}>
+    padding:20px; color:white; border-radius:4px"
+    href=${SERVER_URL}/users/verifyEmail/${email}/${confirmCode}>
     Confirm Email</a></p>
     <p>Kindly disregard this email 
     if you did not sign up for an Pica account.</p>
@@ -40,4 +40,4 @@ const sendVerifyEmail = (email, confirmCode) => {
   return mailer(data);
 };
 
-export default { sendVerifyEmail };
+export default sendVerifyEmail;

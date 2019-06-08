@@ -3,10 +3,11 @@ import nodemailer from 'nodemailer';
 const { USER_MAIL, PASSWORD_MAIL, HOST } = process.env;
 
 const transporter = nodemailer.createTransport({
-  host: HOST,
+  service: HOST,
   secure: false,
   tls: { rejectUnauthorized: false },
   debug: true,
+  logger: true,
   auth: {
     user: USER_MAIL,
     pass: PASSWORD_MAIL,

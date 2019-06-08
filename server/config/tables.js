@@ -8,3 +8,5 @@ const { DB_URL } = process.env;
 const sequelize = new Sequelize(DB_URL);
 
 sequelize.sync({ force: true });
+
+export default sequelize;

@@ -24,17 +24,42 @@ const createUser = async (req, res) => {
     if (name) return res.status(409).json({ error: 'Username in use' });
     const user = await Users.findOne({ where: { email } });
     if (user) return res.status(409).json({ error: 'Email in use' });
-    const code = generateCode(name);
+    const verifyCode = generateCode(username);
     const hashedPassword = await hashPassword(password);
-    const image = await createObject(req.file);
+    // const image = await createObject(req.file);
     const data = {
-      ...reqObject, password: hashedPassword, image, code,
+      ...reqObject,
+      password: hashedPassword,
+      // image,
+      verifyCode,
     };
     const newUser = await Users.create(data);
     delete newUser.dataValues.password;
     const token = generateToken(newUser.id);
-    sendVerifyEmail(email, code);
+    sendVerifyEmail(email, verifyCode);
     return res.status(201).json({ data: { ...newUser.dataValues, token } });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+/**
+ * function for verifying user email
+ * @name verifyUser
+ * @async
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {JSON} Json response object with status of operation
+ */
+const verifyUser = async (req, res) => {
+  try {
+    const { email, verifyCode } = req.params;
+    const user = await Users.findOne({ where: { email } });
+    const verify = await Users.findOne({ where: { verifyCode } });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (!verify) return res.status(400).json({ error: 'Invalid code' });
+    await Users.update({ verifyCode: null }, { where: { email } });
+    return res.status(200).json({ message: 'Email verified' });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -138,5 +163,5 @@ const deleteUser = async (req, res) => {
 };
 
 export {
-  createUser, findUser, findUsers, loginUser, deleteUser,
+  createUser, verifyUser, findUser, findUsers, loginUser, deleteUser,
 };

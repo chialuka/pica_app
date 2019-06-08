@@ -8,7 +8,7 @@ import { Users } from '../models';
 dotenv.config();
 
 const {
-  JWT_SECRET,
+  HASH_SECRET,
   GOOGLE_ID,
   GOOGLE_SECRET,
   FACEBOOK_ID,
@@ -17,7 +17,7 @@ const {
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: JWT_SECRET,
+  secretOrKey: HASH_SECRET,
 };
 
 const jwtStrategy = passport.use(

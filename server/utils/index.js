@@ -5,7 +5,7 @@ import crypto from 'crypto';
 
 dotenv.config();
 
-const { SECRET } = process.env;
+const { HASH_SECRET } = process.env;
 
 /**
  * function for generating email verification code
@@ -14,7 +14,7 @@ const { SECRET } = process.env;
  * @returns {String} sha256 hash created to verify email
  */
 const generateCode = user => crypto
-  .createHmac('sha256', SECRET)
+  .createHmac('sha256', HASH_SECRET)
   .update(user)
   .digest('hex');
 
@@ -41,7 +41,7 @@ const comparePassword = async (pword, hashed) => bcrypt.compare(pword, hashed);
  * @param {String} id
  * @return {String} token generated
  */
-const generateToken = id => jwt.sign({ id }, SECRET, { expiresIn: '1h' });
+const generateToken = id => jwt.sign({ id }, HASH_SECRET, { expiresIn: '1h' });
 
 export {
   generateCode, hashPassword, comparePassword, generateToken,
