@@ -48,8 +48,6 @@ const Posts = sequelize.define('posts', {
 
 const { Op } = Sequelize;
 
-sequelize.sync({ force: true });
-
 export {
   Users, Followers, Posts, Op,
 };
