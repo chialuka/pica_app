@@ -1,7 +1,13 @@
 import Sequelize from 'sequelize';
-import sequelize from '../config';
+import dotenv from 'dotenv';
 
-const Users = sequelize.define('users', {
+dotenv.config();
+
+const { DB_URL } = process.env;
+
+const sequelize = new Sequelize(DB_URL);
+
+sequelize.define('users', {
   username: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -22,7 +28,7 @@ const Users = sequelize.define('users', {
   },
 });
 
-const Followers = sequelize.define('followers', {
+sequelize.define('followers', {
   follower: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -33,7 +39,7 @@ const Followers = sequelize.define('followers', {
   },
 });
 
-const Posts = sequelize.define('posts', {
+sequelize.define('posts', {
   user: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -46,10 +52,4 @@ const Posts = sequelize.define('posts', {
   },
 });
 
-const { Op } = Sequelize;
-
 sequelize.sync({ force: true });
-
-export {
-  Users, Followers, Posts, Op,
-};
