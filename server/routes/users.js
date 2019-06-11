@@ -1,3 +1,4 @@
+import passport from 'passport';
 import {
   createUser,
   findUser,
@@ -9,6 +10,7 @@ import {
 import { createUserSchema, loginUserSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
 import upload from '../middleware/images';
+import { jwtStrategy } from '../middleware/auth';
 
 export default (router) => {
   router.route('/users').get(findUsers);
@@ -21,9 +23,7 @@ export default (router) => {
       createUser,
     );
 
-  router
-    .route('/users/verifyEmail/:email/:verifyCode')
-    .patch(verifyUser);
+  router.route('/users/verifyEmail/:email/:verifyCode').patch(verifyUser);
 
   router
     .route('/users/login')
@@ -32,5 +32,11 @@ export default (router) => {
   router
     .route('/users/:id')
     .get(validateIdParams, findUser)
-    .delete(validateIdParams, deleteUser);
+    .delete(
+      validateIdParams,
+      passport.authenticate(jwtStrategy._strategies.jwt.name, {
+        session: false,
+      }),
+      deleteUser,
+    );
 };

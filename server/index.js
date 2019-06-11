@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import passport from 'passport';
 import routes from './routes';
 
 dotenv.config();
@@ -24,6 +25,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan('dev'));
+
+app.use(passport.initialize());
 
 app.use('/', router);
 
