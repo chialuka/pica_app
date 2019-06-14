@@ -10,7 +10,14 @@ import {
 import { createUserSchema, loginUserSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
 import upload from '../middleware/images';
-import { jwtStrategy } from '../middleware/auth';
+import {
+  jwtStrategy,
+  googleStrategy,
+  facebookStrategy,
+} from '../middleware/auth';
+
+const google = googleStrategy._strategies.google.name;
+const facebook = facebookStrategy._strategies.google.name;
 
 export default (router) => {
   router.route('/users').get(findUsers);
@@ -39,4 +46,32 @@ export default (router) => {
       }),
       deleteUser,
     );
+
+  router
+    .route('/auth/google')
+    .get(passport.authenticate(google, { scope: ['profile', 'email'] }));
+
+  router.route('/auth/google/callback').get(
+    passport.authenticate(
+      google,
+      { failureRedirect: '/users/login' },
+      (req, res) => {
+        res.redirect('http://localhost/4000/api/v1');
+      },
+    ),
+  );
+
+  router
+    .route('/auth/facebook')
+    .get(passport.authenticate(facebook, { scope: ['profile', 'email'] }));
+
+  router.route('/auth/facebook/callback').get(
+    passport.authenticate(
+      facebook,
+      { failureRedirect: '/users/login' },
+      (req, res) => {
+        res.redirect('http://localhost/4000/api/v1');
+      },
+    ),
+  );
 };

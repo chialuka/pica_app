@@ -34,15 +34,16 @@ const googleStrategy = passport.use(
     {
       clientID: GOOGLE_ID,
       clientSecret: GOOGLE_SECRET,
-      callbackURL: 'http://localhost:2800/signup/google',
+      callbackURL: 'http://localhost:2800/signin/google',
     },
     (accessToken, refreshToken, profile, cb) => {
-      console.log(profile, 'profile');
-      Users.findOne({ where: { googleId: profile.id } })
-        .then((user) => {
-          console.log(user);
-        })
-        .catch(err => console.log(err, 'err'));
+      process.nextTick(() => {
+        Users.findOne({ where: { googleId: profile.id } })
+          .then((user) => {
+            console.log(user);
+          })
+          .catch(err => console.log(err, 'err'));
+      });
     },
   ),
 );
@@ -52,15 +53,17 @@ const facebookStrategy = passport.use(
     {
       clientID: FACEBOOK_ID,
       clientSecret: FACEBOOK_SECRET,
-      callbackURL: 'http://localhost:2800/signup/facebook',
+      callbackURL: 'http://localhost:2800/signin/facebook',
     },
     (accessToken, refreshToken, profile, cb) => {
-      console.log(profile, 'facebook profile');
-      Users.findOne({ where: { googleId: profile.id } })
-        .then((user) => {
-          console.log(user);
-        })
-        .catch(err => console.log(err, 'err'));
+      process.nextTick(() => {
+        console.log(profile, 'facebook profile');
+        Users.findOne({ where: { googleId: profile.id } })
+          .then((user) => {
+            console.log(user);
+          })
+          .catch(err => console.log(err, 'err'));
+      });
     },
   ),
 );
