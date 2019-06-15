@@ -1,4 +1,5 @@
 import passport from 'passport';
+import dotenv from 'dotenv';
 import {
   createUser,
   findUser,
@@ -15,6 +16,8 @@ import {
   googleStrategy,
   facebookStrategy,
 } from '../middleware/auth';
+
+dotenv.config();
 
 const google = googleStrategy._strategies.google.name;
 const facebook = facebookStrategy._strategies.google.name;
@@ -56,7 +59,7 @@ export default (router) => {
       google,
       { failureRedirect: '/users/login' },
       (req, res) => {
-        res.redirect('http://localhost/4000/api/v1');
+        res.redirect(process.env.FRONTEND_URL);
       },
     ),
   );
@@ -70,7 +73,7 @@ export default (router) => {
       facebook,
       { failureRedirect: '/users/login' },
       (req, res) => {
-        res.redirect('http://localhost/4000/api/v1');
+        res.redirect(process.env.FRONTEND_URL);
       },
     ),
   );
