@@ -26,7 +26,10 @@ const createUser = async (req, res) => {
     if (user) return res.status(409).json({ error: 'Email in use' });
     const verifyCode = generateCode(username);
     const hashedPassword = await hashPassword(password);
-    const image = await createObject(req.file);
+    let image;
+    if (req.file) {
+      image = await createObject(req.file);
+    }
     const data = {
       ...reqObject,
       password: hashedPassword,
