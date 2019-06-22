@@ -10,9 +10,7 @@ import {
 import { postSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
 import upload from '../middleware/images';
-import { jwtStrategy } from '../middleware/auth';
-
-const jwt = jwtStrategy._strategies.jwt.name;
+import '../middleware/auth';
 
 export default (router) => {
   router
@@ -23,7 +21,7 @@ export default (router) => {
   router.route('/posts/create').post(
     upload.single('image'),
     validateRequest(postSchema),
-    passport.authenticate(jwt, {
+    passport.authenticate('jwt', {
       session: false,
     }),
     createPost,
@@ -34,7 +32,7 @@ export default (router) => {
     .get(validateIdParams, findPost)
     .delete(
       validateIdParams,
-      passport.authenticate(jwt, {
+      passport.authenticate('jwt', {
         session: false,
       }),
       deletePost,

@@ -22,6 +22,36 @@ const jwtOptions = {
   secretOrKey: HASH_SECRET,
 };
 
+/**
+ * @socialLogin
+ * @description Generic function to handle social requests
+ * @param {Function} cb Callback function to be invoked
+ * @param {Object} profile Object containing user details
+ */
+const socialLogin = (cb, profile) => {
+  process.nextTick(async () => {
+    try {
+      console.log(profile, 'profile');
+      let user = await Users.findOne({
+        where: { email: profile.emails[0].value },
+      });
+      if (!user) {
+        const newUser = {
+          userName: profile.userName,
+          email: profile.emails[0].value,
+        };
+        user = await Users.create(newUser);
+      }
+      const token = generateToken(user.id);
+      user.token = token;
+      return cb(null, user);
+    } catch (error) {
+      console.error(error, 'error');
+      return cb(error, false);
+    }
+  });
+};
+
 const jwtStrategy = passport.use(
   new JwtStrategy(jwtOptions, async (payload, done) => {
     try {
@@ -41,17 +71,7 @@ const googleStrategy = passport.use(
       callbackURL: `${BACKEND_URL}/auth/google/callback`,
     },
     (accessToken, refreshToken, profile, cb) => {
-      process.nextTick(async () => {
-        try {
-          const user = await Users.findOne({ where: { googleId: profile.id } });
-          const userObject = user;
-          const token = generateToken(profile.id);
-          userObject.token = token;
-          return cb(null, userObject);
-        } catch (error) {
-          return cb(error, false);
-        }
-      });
+      socialLogin(cb, profile);
     },
   ),
 );
@@ -63,26 +83,14 @@ const facebookStrategy = passport.use(
       clientSecret: FACEBOOK_SECRET,
       callbackURL: `${BACKEND_URL}/auth/facebook/callback`,
     },
-    (accessToken, refreshToken, profile, cb) => {
-      process.nextTick(async () => {
-        try {
-          const user = await Users.findOne({ where: { googleId: profile.id } });
-          const userObject = user;
-          const token = generateToken(profile.id);
-          userObject.token = token;
-          return cb(null, userObject);
-        } catch (error) {
-          return cb(error, false);
-        }
-      });
-    },
+    (accessToken, refreshToken, profile, cb) => socialLogin(cb, profile),
   ),
 );
 
 passport.serializeUser((user, cb) => cb(null, user.id));
 
 passport.deserializeUser((id, cb) => {
-  Users.findOne({ where: { id } }, (err, user) => cb(err, user));
+  Users.findOne({ where: { id } }, user => cb(user, null));
 });
 
 export { jwtStrategy, googleStrategy, facebookStrategy };

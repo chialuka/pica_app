@@ -14,8 +14,7 @@ const createUserSchema = {
 };
 
 const loginUserSchema = {
-  username: Joi.string(),
-  email: Joi.string().email(),
+  userDetails: Joi.string(),
   password: Joi.string()
     .alphanum()
     .required(),

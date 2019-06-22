@@ -123,7 +123,7 @@ const findUsers = async (_, res) => {
  */
 const loginUser = async (req, res) => {
   try {
-    const value = req.body.username || req.body.email;
+    const value = req.body.userDetails;
     const user = await Users.findOne({
       where: {
         [Op.or]: [{ username: value }, { email: value }],

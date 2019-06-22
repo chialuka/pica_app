@@ -8,14 +8,12 @@ import {
 } from '../controllers/followers';
 import { validateRequest, validateIdParams } from '../middleware/validators';
 import { followerSchema } from '../middleware/schema';
-import { jwtStrategy } from '../middleware/auth';
-
-const jwt = jwtStrategy._strategies.jwt.name;
+import '../middleware/auth';
 
 export default (router) => {
   router.route('/followers/create').post(
     validateRequest(followerSchema),
-    passport.authenticate(jwt, {
+    passport.authenticate('jwt', {
       session: false,
     }),
     createFollower,
@@ -25,14 +23,14 @@ export default (router) => {
     .route('/followers/:id')
     .get(
       validateIdParams,
-      passport.authenticate(jwt, {
+      passport.authenticate('jwt', {
         session: false,
       }),
       findFollowers,
     )
     .delete(
       validateIdParams,
-      passport.authenticate(jwt, {
+      passport.authenticate('jwt', {
         session: false,
       }),
       deleteFollower,
@@ -42,14 +40,14 @@ export default (router) => {
     .route('/following/:id')
     .get(
       validateIdParams,
-      passport.authenticate(jwt, {
+      passport.authenticate('jwt', {
         session: false,
       }),
       findFollowing,
     )
     .delete(
       validateIdParams,
-      passport.authenticate(jwt, {
+      passport.authenticate('jwt', {
         session: false,
       }),
       deleteFollowing,
