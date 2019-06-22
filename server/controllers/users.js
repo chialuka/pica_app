@@ -38,9 +38,8 @@ const createUser = async (req, res) => {
     };
     const newUser = await Users.create(data);
     delete newUser.dataValues.password;
-    const token = generateToken(newUser.id);
     sendVerifyEmail(email, verifyCode);
-    return res.status(201).json({ data: { ...newUser.dataValues, token } });
+    return res.status(201).json({ data: { ...newUser.dataValues } });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -58,11 +57,14 @@ const verifyUser = async (req, res) => {
   try {
     const { email, verifyCode } = req.params;
     const user = await Users.findOne({ where: { email } });
-    const verify = await Users.findOne({ where: { verifyCode } });
+    const code = await Users.findOne({ where: { verifyCode } });
     if (!user) return res.status(404).json({ error: 'User not found' });
-    if (!verify) return res.status(400).json({ error: 'Invalid code' });
+    if (!code) return res.status(400).json({ error: 'Invalid code' });
+    const { verifyCode: vc } = user;
+    if (vc) return res.status(400).json({ error: 'Email already Verified' });
     await Users.update({ verifyCode: null }, { where: { email } });
-    return res.status(200).json({ message: 'Email verified' });
+    const token = generateToken(user.id);
+    return res.status(200).json({ message: 'Email verified', token });
   } catch (error) {
     return res.status(500).json(error);
   }
