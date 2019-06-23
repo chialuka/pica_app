@@ -11,7 +11,7 @@ import {
 import { createUserSchema, loginUserSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
 import upload from '../middleware/images';
-import '../middleware/auth';
+import '../middleware/passport';
 
 dotenv.config();
 
@@ -59,7 +59,7 @@ export default (router) => {
 
   router
     .route('/auth/facebook')
-    .get(passport.authenticate('facebook', { scope: ['profile', 'email'] }));
+    .get(passport.authenticate('facebook'));
 
   router.route('/auth/facebook/callback').get(
     passport.authenticate(

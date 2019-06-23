@@ -10,7 +10,7 @@ import {
 import { postSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
 import upload from '../middleware/images';
-import '../middleware/auth';
+import '../middleware/passport';
 
 export default (router) => {
   router

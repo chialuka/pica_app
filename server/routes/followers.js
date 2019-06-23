@@ -8,7 +8,7 @@ import {
 } from '../controllers/followers';
 import { validateRequest, validateIdParams } from '../middleware/validators';
 import { followerSchema } from '../middleware/schema';
-import '../middleware/auth';
+import '../middleware/passport';
 
 export default (router) => {
   router.route('/followers/create').post(
