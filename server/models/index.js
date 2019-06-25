@@ -7,6 +7,9 @@ const Users = sequelize.define('users', {
     allowNull: false,
     unique: true,
   },
+  fullName: {
+    type: Sequelize.STRING,
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
