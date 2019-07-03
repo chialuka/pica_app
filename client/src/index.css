@@ -5,6 +5,6 @@ body {
     sans-serif;
 }
 
-code {
-  font-family: "Courier New", monospace;
+.image {
+  height: 70vh;
 }
