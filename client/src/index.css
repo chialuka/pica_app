@@ -3,8 +3,38 @@ body {
   font-family: "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
+  background: linear-gradient(90deg, #e8ab8f 75%, #8dcce5 25%) repeat;
+}
+
+.home-back {
+  background-color: #ffffff;
+  height: 50%;
+  width: 70%;
+  padding:  50px;
+  margin: auto;
+  display: flex;
+  justify-content: space-evenly;
+  box-shadow: 2px 2px 0px 0px #868585;
+}
+
+.logo {
+  height: 55px;
+  margin-top: -15px;
 }
 
 .image {
   height: 70vh;
+}
+
+.nav-bar {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+a {
+  text-decoration: none;
+  color: #000000;
+  font-size: 1.3em;
 }

@@ -2,7 +2,7 @@ import React from "react";
 
 const Home = () => {
   return (
-    <div>
+    <div className='home-back'>
       <img className="image" src="people.jpg" alt="people connecting" />
     </div>
   );
