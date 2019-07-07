@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Navigation from "./navigation";
-import Home from "./pages/HomePage";
-import SignUp from "./pages/SignUpPage";
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Navigation from './navigation';
+import Home from './pages/HomePage';
+import SignUp from './pages/SignUpPage';
 
 const App = () => {
   const token =
-    (localStorage.getItem("token") &&
-      JSON.parse(localStorage.getItem("token"))) ||
+    (localStorage.getItem('token') &&
+      JSON.parse(localStorage.getItem('token'))) ||
     [];
-  const [newToken, setToken] = useState("");
+  const [newToken, setToken] = useState('');
 
   if (!token) {
-    setToken("");
+    setToken('');
   }
 
   return (
     <Router>
       <Navigation token={newToken} />
-      <Route exact path="/" component={Home} />
-      <Route exact path="/signup" component={SignUp} />{" "}
+      <Route exact path='/' component={Home} />
+      <Route exact path='/signup' component={SignUp} />{' '}
     </Router>
   );
 };
