@@ -1,7 +1,8 @@
 import Joi from '@hapi/joi';
 
 const createUserSchema = {
-  username: Joi.string()
+  fullName: Joi.string().required(),
+  userName: Joi.string()
     .alphanum()
     .required(),
   email: Joi.string()

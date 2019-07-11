@@ -22,10 +22,11 @@ const SignUp = () => {
 
   const createUser = async props => {
     try {
-      const newUser = await axios.post('/users', userDetails);
-      if (newUser.status === 201) {
-        props.history.push('/dashboard')
+      const newUser = await axios.post('/users/signup', userDetails);
+      if (newUser.status !== 201) {
+        return newUser.body.error;
       }
+      props.history.push('/dashboard')
     } catch (error) {
       return error;
     }

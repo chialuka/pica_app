@@ -8,7 +8,11 @@ const { DB_URL } = process.env;
 const sequelize = new Sequelize(DB_URL);
 
 sequelize.define('users', {
-  username: {
+  fullName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  userName: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
