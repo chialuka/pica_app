@@ -23,6 +23,7 @@ const SignUp = () => {
   const createUser = async props => {
     try {
       const newUser = await axios.post('/users/signup', userDetails);
+      console.log(newUser, 'newUser');
       if (newUser.status !== 201) {
         return newUser.body.error;
       }
@@ -52,6 +53,7 @@ const SignUp = () => {
       />
       <TextField
         required
+        type='email'
         label="Email address"
         name="email"
         value={email}
@@ -59,6 +61,7 @@ const SignUp = () => {
       />
       <TextField
         required
+        type='password'
         label="Password"
         name="password"
         value={password}

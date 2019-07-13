@@ -10,7 +10,6 @@ import {
 } from '../controllers/users';
 import { createUserSchema, loginUserSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
-import upload from '../middleware/images';
 import '../middleware/passport';
 
 dotenv.config();
@@ -21,7 +20,6 @@ export default (router) => {
   router
     .route('/users/signup')
     .post(
-      upload.single('image'),
       validateRequest(createUserSchema),
       createUser,
     );

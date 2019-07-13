@@ -21,9 +21,7 @@ const SignIn = () => {
   const loginUser = async props => {
     try {
       const login = await axios.post('/users/login', loginDetails);
-      console.log(login, 'login details');
       if (login.status !== 200) {
-        console.log(login.body);
         return login.body.error;
       }
       props.history.push('/dashboard');
@@ -53,7 +51,7 @@ const SignIn = () => {
         onChange={handleChange}
       />
       <Button variant="contained" onClick={loginUser} style={{ margin: 15 }}>
-        Sign Up
+        Login
       </Button>
       <div>
         Don't have an account?<Link to="/signup">Sign up here</Link>

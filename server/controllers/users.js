@@ -18,20 +18,19 @@ import { createObject } from './images';
  */
 const createUser = async (req, res) => {
   try {
-    const reqObject = JSON.parse(req.body.body);
-    const { username, email, password } = reqObject;
-    const name = await Users.findOne({ where: { username } });
+    const { userName, email, password } = req.body;
+    const name = await Users.findOne({ where: { userName } });
     if (name) return res.status(409).json({ error: 'Username in use' });
     const user = await Users.findOne({ where: { email } });
     if (user) return res.status(409).json({ error: 'Email in use' });
-    const verifyCode = generateCode(username);
+    const verifyCode = generateCode(userName);
     const hashedPassword = await hashPassword(password);
     let image;
     if (req.file) {
       image = await createObject(req.file);
     }
     const data = {
-      ...reqObject,
+      ...req.body,
       password: hashedPassword,
       image,
       verifyCode,
@@ -41,6 +40,7 @@ const createUser = async (req, res) => {
     sendVerifyEmail(email, verifyCode);
     return res.status(201).json({ data: { ...newUser.dataValues } });
   } catch (error) {
+    console.log(error, '500 error');
     return res.status(500).json(error);
   }
 };
@@ -126,7 +126,7 @@ const loginUser = async (req, res) => {
     const value = req.body.userDetails;
     const user = await Users.findOne({
       where: {
-        [Op.or]: [{ username: value }, { email: value }],
+        [Op.or]: [{ userName: value }, { email: value }],
       },
     });
     if (!user) {
