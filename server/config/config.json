@@ -1,0 +1,6 @@
+{
+  "development": {
+    "url": "postgres://chukwualuka:lukas@localhost:5432/pica",
+    "dialect": "postgres"
+  }
+}

@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import sequelize from '../config';
 
 const Users = sequelize.define('users', {
-  username: {
+  userName: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
