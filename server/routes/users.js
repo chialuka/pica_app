@@ -19,10 +19,7 @@ export default (router) => {
 
   router
     .route('/users/signup')
-    .post(
-      validateRequest(createUserSchema),
-      createUser,
-    );
+    .post(validateRequest(createUserSchema), createUser);
 
   router.route('/users/verifyEmail/:email/:verifyCode').patch(verifyUser);
 
@@ -55,9 +52,7 @@ export default (router) => {
     ),
   );
 
-  router
-    .route('/auth/facebook')
-    .get(passport.authenticate('facebook'));
+  router.route('/auth/facebook').get(passport.authenticate('facebook'));
 
   router.route('/auth/facebook/callback').get(
     passport.authenticate(

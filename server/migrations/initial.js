@@ -29,7 +29,7 @@ module.exports = {
       },
     });
   },
-  down(query, Sequelize) {
+  down(query) {
     return query.dropTable('users');
   },
 };

@@ -35,8 +35,8 @@ const SignUp = () => {
 
   const { fullName, userName, email, password } = userDetails;
   return (
-    <Paper>
-      Let's get to know you!
+    <Paper elevation={3} className='paper'>
+      <p className='head-title'>Let's get to know you!</p>
       <TextField
         required
         label="Full Name"
@@ -70,7 +70,7 @@ const SignUp = () => {
       <Button variant="contained" onClick={createUser} style={{ margin: 15 }}>
         Sign Up
       </Button>
-      <div>Have an account?<Link to='/signin'>Login here</Link></div>
+      <div className='head-title'>Have an account?<Link to='/signin'> Login here</Link></div>
     </Paper>
   );
 };
