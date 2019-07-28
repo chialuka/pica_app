@@ -1,5 +1,5 @@
 import passport from 'passport';
-import dotenv from 'dotenv';
+import { config } from 'dotenv';
 import {
   createUser,
   findUser,
@@ -12,7 +12,7 @@ import { createUserSchema, loginUserSchema } from '../middleware/schema';
 import { validateRequest, validateIdParams } from '../middleware/validators';
 import '../middleware/passport';
 
-dotenv.config();
+config();
 
 export default (router) => {
   router.route('/users').get(findUsers);
@@ -42,25 +42,23 @@ export default (router) => {
     .route('/auth/google')
     .get(passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-  router.route('/auth/google/callback').get(
-    passport.authenticate(
-      'google',
-      { failureRedirect: '/users/login' },
+  router
+    .route('/auth/google/callback')
+    .get(
+      passport.authenticate('google', { failureRedirect: '/users/login' }),
       (req, res) => {
         res.redirect(process.env.FRONTEND_URL);
       },
-    ),
-  );
+    );
 
   router.route('/auth/facebook').get(passport.authenticate('facebook'));
 
-  router.route('/auth/facebook/callback').get(
-    passport.authenticate(
-      'facebook',
-      { failureRedirect: '/users/login' },
+  router
+    .route('/auth/facebook/callback')
+    .get(
+      passport.authenticate('facebook', { failureRedirect: '/users/login' }),
       (req, res) => {
         res.redirect(process.env.FRONTEND_URL);
       },
-    ),
-  );
+    );
 };

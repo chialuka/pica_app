@@ -14,7 +14,7 @@ sequelize.define('users', {
   },
   userName: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
     unique: true,
   },
   email: {

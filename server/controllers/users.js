@@ -40,7 +40,6 @@ const createUser = async (req, res) => {
     sendVerifyEmail(email, verifyCode);
     return res.status(201).json({ data: { ...newUser.dataValues } });
   } catch (error) {
-    console.log(error, '500 error');
     return res.status(500).json(error);
   }
 };
