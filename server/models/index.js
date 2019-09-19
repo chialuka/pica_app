@@ -1,10 +1,14 @@
 import Sequelize from 'sequelize';
-import sequelize from '../config';
+import { config } from 'dotenv';
+
+config();
+
+const sequelize = new Sequelize(process.env.DB_URL);
 
 const Users = sequelize.define('users', {
   userName: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
     unique: true,
   },
   fullName: {

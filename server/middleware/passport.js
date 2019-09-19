@@ -38,7 +38,6 @@ const socialLogin = (cb, profile) => {
         const newUser = {
           fullName: profile.displayName,
           email: profile.emails[0].value,
-          userName: profile.displayName,
         };
         user = await Users.create(newUser);
       }
