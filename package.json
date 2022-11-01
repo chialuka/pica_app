@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/LukasChiama/pica_app#readme",
   "dependencies": {
-    "concurrently": "^4.1.0"
+    "concurrently": "^7.5.0"
   }
 }
